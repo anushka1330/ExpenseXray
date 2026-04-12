@@ -1,7 +1,7 @@
 # ExpenseXray
 A smart expense tracking system that doesn’t just record your money — it reveals where your life is going.
 
-✨ Features
+##✨ Features
 
 📊 Track daily expenses effortlessly
 💡 Smart budget monitoring
@@ -15,7 +15,7 @@ I built this project to solve a real problem: 👉 Understanding where money act
 
 This app focuses on clarity, simplicity, and giving meaningful insights rather than just raw data.
 
-🛠️ Tech Stack
+##🛠️ Tech Stack
 Python 🐍
 Flask 🌐
 HTML, CSS, JavaScript 🎨

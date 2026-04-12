@@ -23,6 +23,9 @@ This app focuses on clarity, simplicity, and giving meaningful insights rather t
 🛠️ Tech Stack
 
 Python 🐍
+
 Flask 🌐
+
 HTML, CSS, JavaScript 🎨
+
 SQLite

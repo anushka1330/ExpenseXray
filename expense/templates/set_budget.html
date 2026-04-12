@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Set Budget{% endblock %}
+
+{% block content %}
+<div class="glass-card" style="max-width: 600px; margin: 0 auto;">
+    <h3>Smart Budget Prediction</h3>
+    <br>
+    <form method="POST" class="mb-4">
+        <div class="form-group">
+            <label>Enter Expected Monthly Income (₹)</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="number" name="income_amount" class="form-control" value="{{ income or '' }}" required>
+                <button type="submit" class="btn" style="width: auto;">Update</button>
+            </div>
+        </div>
+    </form>
+    
+    {% if prediction %}
+    <div style="margin-top: 20px;">
+        <p style="color: var(--text-secondary); margin-bottom: 15px;">Based on the 50/30/20 rule, here is your recommended monthly budget:</p>
+        
+        <div class="alert info" style="display: flex; justify-content: space-between;">
+            <span><strong>Needs (50%)</strong><br>Rent, Bills, Groceries</span>
+            <span class="expense-val" style="color: var(--accent-color);">₹{{ "%.2f"|format(prediction.Needs) }}</span>
+        </div>
+        
+        <div class="alert warning" style="display: flex; justify-content: space-between;">
+            <span><strong>Wants (30%)</strong><br>Dining, Entertainment</span>
+            <span class="expense-val" style="color: var(--warning);">₹{{ "%.2f"|format(prediction.Wants) }}</span>
+        </div>
+        
+        <div class="alert success" style="display: flex; justify-content: space-between;">
+            <span><strong>Savings/Goals (20%)</strong><br>Investments</span>
+            <span class="expense-val" style="color: var(--success);">₹{{ "%.2f"|format(prediction.Savings) }}</span>
+        </div>
+    </div>
+    {% else %}
+    <p style="color: var(--text-secondary);">Enter your income to get a smart AI-powered budget recommendation.</p>
+    {% endif %}
+</div>
+{% endblock %}

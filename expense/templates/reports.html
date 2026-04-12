@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Weekly Insights{% endblock %}
+
+{% block content %}
+<div class="glass-card mb-4" style="text-align: center; padding: 3rem;">
+    <h2 style="color: var(--text-secondary); margin-bottom: 10px;">Total Spent This Week</h2>
+    <h1 style="font-size: 3rem; color: var(--text-primary);">₹{{ "%.2f"|format(insights.current_total) }}</h1>
+</div>
+
+<div class="grid-2">
+    <div class="glass-card">
+        <h3>AI Analysis</h3>
+        <br>
+        {% for insight in insights.insights %}
+            <div class="alert {{ insight.type }}" style="margin-bottom: 15px;">
+                <i class="fas {% if insight.type == 'warning' %}fa-exclamation-triangle{% elif insight.type == 'success' %}fa-check-circle{% elif insight.type == 'alert' %}fa-bullseye{% else %}fa-info-circle{% endif %}"></i> 
+                {{ insight.text }}
+            </div>
+        {% endfor %}
+        
+        {% if insights.highest_category %}
+        <p style="margin-top: 20px; line-height: 1.6; color: var(--text-secondary);">
+            Our logic detects that <strong>{{ insights.highest_category }}</strong> is your highest expense area this week. 
+            Consider applying a 10-15% reduction goal strictly to this category next week to improve your savings rate.
+        </p>
+        {% endif %}
+    </div>
+    
+    <div class="glass-card">
+        <h3>Category Breakdown</h3>
+        <br>
+        <ul style="list-style: none; padding: 0;">
+            {% for cat, val in insights.category_breakdown.items() %}
+            <li style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--glass-border);">
+                <span>{{ cat }}</span>
+                <strong style="color: var(--text-primary);">₹{{ "%.2f"|format(val) }}</strong>
+            </li>
+            {% else %}
+            <li style="color: var(--text-secondary);">No category data available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

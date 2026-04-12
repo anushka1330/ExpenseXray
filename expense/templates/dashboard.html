@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Overview{% endblock %}
+
+{% block content %}
+<!-- Welcome & Insights -->
+<div class="glass-card mb-4">
+    <h3>Hello! Here's your weekly summary.</h3>
+    <br>
+    {% for insight in insights.insights %}
+        <div class="alert {{ insight.type }}">
+            <i class="fas {% if insight.type == 'warning' %}fa-exclamation-triangle{% elif insight.type == 'success' %}fa-check-circle{% else %}fa-info-circle{% endif %}"></i> 
+            {{ insight.text }}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="grid-2">
+    <!-- Chart -->
+    <div class="glass-card">
+        <h3>This Week's Spending</h3>
+        <div style="height: 250px; margin-top: 15px;">
+            {% if insights.current_total > 0 %}
+                <canvas id="categoryPieChart"></canvas>
+            {% else %}
+                <p style="text-align: center; color: var(--text-secondary); margin-top: 50px;">No expenses this week yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Add Expense Form -->
+    <div class="glass-card">
+        <h3>Add Expense Manually</h3>
+        <br>
+        <form id="expenseForm">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Amount (₹)</label>
+                    <input type="number" id="amount" class="form-control" required placeholder="e.g. 250">
+                </div>
+                <div class="form-group">
+                    <label>Category (Optional)</label>
+                    <select id="category" class="form-control">
+                        <option value="">Auto Detect</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Health">Health</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" id="desc" class="form-control" required placeholder="e.g. Swiggy Lunch">
+            </div>
+            <button type="submit" class="btn">Log Expense</button>
+        </form>
+    </div>
+</div>
+
+<!-- Recent Expenses List -->
+<div class="glass-card">
+    <h3>Recent Transactions</h3>
+    <br>
+    <ul class="expense-list">
+        {% for expense in expenses %}
+        <li class="expense-item">
+            <div class="expense-info">
+                <div class="desc">{{ expense.description }}</div>
+                <div class="date">{{ expense.date.strftime('%d %b %Y, %H:%M') }}</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="expense-val">₹{{ "%.2f"|format(expense.amount) }}</div>
+                <div class="expense-cat">{{ expense.category }}</div>
+            </div>
+        </li>
+        {% else %}
+        <li class="expense-item" style="justify-content: center; color: var(--text-secondary);">
+            No transactions yet.
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    {% if insights.current_total > 0 %}
+    // Pass data securely to JS
+    const categoryData = {{ insights.category_breakdown | tojson | safe }};
+    initDashboardCharts(categoryData, {{ insights.current_total }});
+    {% endif %}
+    
+    // Form submission
+    document.getElementById('expenseForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const data = {
+            amount: document.getElementById('amount').value,
+            description: document.getElementById('desc').value,
+            category: document.getElementById('category').value
+        };
+        
+        fetch('/api/add_expense', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(res => res.json()).then(data => {
+            if(data.success) {
+                window.location.reload();
+            } else {
+                alert(data.error);
+            }
+        });
+    });
+</script>
+{% endblock %}

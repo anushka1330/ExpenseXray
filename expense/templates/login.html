@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Expense X-Ray</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+
+  <!-- Analytical Grid Background -->
+  <div class="grid-bg-overlay"></div>
+  
+  <!-- 3D Canvas -->
+  <canvas id="three-bg-canvas"></canvas>
+
+  <div class="auth-viewport">
+    
+    <!-- Top Bar Header -->
+    <header class="auth-header">
+      <a href="{{ url_for('index') }}" class="auth-brand">
+        <svg class="auth-brand-svg" width="38" height="38" viewBox="0 0 48 48" fill="none">
+          <circle cx="28" cy="18" r="13" fill="#D4A373" stroke="#F7EFE9" stroke-width="2"/>
+          <text x="28" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="15" fill="#120E0C" text-anchor="middle">₹</text>
+          <path d="M10 32C10 32 14 28 18 28C22 28 24 31 28 31C32 31 36 26 39 26C41 26 42 28 40 30C37 33 33 38 27 38C22 38 18 35 15 35L10 32Z" stroke="#F7EFE9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="7" y="31" width="5" height="10" rx="2" fill="#D4A373"/>
+        </svg>
+        <div class="auth-brand-text">
+          <span class="auth-brand-name">₹ Expense X-Ray</span>
+          <span class="auth-brand-tagline">See What Your Money Doesn't</span>
+        </div>
+      </a>
+      <div class="auth-top-nav">
+        <a href="{{ url_for('index') }}" class="auth-nav-link">Overview</a>
+        <a href="{{ url_for('signup') }}" class="auth-nav-link" style="color:var(--accent-bronze)">Create Account →</a>
+      </div>
+    </header>
+
+    <!-- Main Editorial Composition -->
+    <div class="auth-canvas-container">
+      
+      <!-- Left Column: Art-Directed Storytelling -->
+      <div class="editorial-col">
+        <div class="editorial-tagline-eyebrow">Financial Intelligence</div>
+        <h1 class="editorial-headline">
+          See what your money doesn't.
+          <span class="highlight">The small spends. The hidden patterns.</span>
+        </h1>
+        <p class="editorial-sub">
+          Continuous analytical scanning across all transactions to reveal real liquidity, hidden leaks, and future savings potential.
+        </p>
+
+        <!-- Single Refined Financial Visualization Widget (NO 4-card feature lists!) -->
+        <div class="financial-xray-live-preview">
+          <div class="preview-header">
+            <div class="preview-label">
+              <span class="preview-pulse-dot"></span>
+              FINANCIAL X-RAY / LIVE
+            </div>
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">INR ANALYTICS</span>
+          </div>
+          <div class="preview-val-row">
+            <div class="preview-val">₹ 42,850.00</div>
+            <div class="preview-delta"><i class="fas fa-arrow-down"></i> 14.2% optimized</div>
+          </div>
+          <div class="preview-graph-bar">
+            <div class="preview-graph-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Precision Form (No giant split-screen card box) -->
+      <div class="form-col">
+        <div class="form-canvas-wrap">
+          <div class="form-eyebrow">Personal Finance / X-Ray</div>
+          <h2 class="form-title">Sign in to continue</h2>
+
+          {% if error %}
+          <div class="flash-messages">
+            <div class="flash-item error">
+              <span><i class="fas fa-exclamation-circle" style="margin-right:0.4rem"></i>{{ error }}</span>
+            </div>
+          </div>
+          {% endif %}
+
+          <form action="{{ url_for('login') }}" method="POST" class="auth-form">
+            
+            <div class="auth-field-group">
+              <label class="auth-field-label" for="expense_xray_id">Expense X-Ray ID</label>
+              <div class="auth-input-wrap">
+                <input 
+                  type="text" 
+                  id="expense_xray_id" 
+                  name="expense_xray_id" 
+                  class="auth-input" 
+                  placeholder="e.g. RahulXRay"
+                  required 
+                  autocomplete="username"
+                  autofocus
+                >
+              </div>
+            </div>
+
+            <div class="auth-field-group">
+              <label class="auth-field-label" for="password">Password</label>
+              <div class="auth-input-wrap">
+                <input 
+                  type="password" 
+                  id="password" 
+                  name="password" 
+                  class="auth-input" 
+                  placeholder="••••••••"
+                  required 
+                  autocomplete="current-password"
+                >
+              </div>
+            </div>
+
+            <button type="submit" class="btn-cta-art">
+              Sign In <i class="fas fa-arrow-right" style="font-size:0.8rem"></i>
+            </button>
+          </form>
+
+          <div class="auth-footer-link">
+            Don't have an ID? <a href="{{ url_for('signup') }}">Create your Expense X-Ray account</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="{{ url_for('static', filename='js/three-background.js') }}"></script>
+</body>
+</html>

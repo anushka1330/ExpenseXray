@@ -1,6 +1,7 @@
 # 🤎 Expense X-Rray
 
 > **See What Your Money Doesn't.**
+> 
 > Your spending has patterns.
 Your goals have a story.
 It's time to see them.

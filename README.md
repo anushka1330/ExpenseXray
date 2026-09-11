@@ -1,6 +1,12 @@
 # 🤎 Expense X-Rray
 
 > **See What Your Money Doesn't.**
+>
+> Your spending has patterns.
+Your goals have a story.
+It's time to see them.
+
+✦ Create your X-Ray ID today.
 
 Expense X-Rray is a personal finance web application designed to make expense tracking **simple, visual, and insightful**. Track your spending, manage budgets, set savings goals, and understand your financial habits through intuitive dashboards and charts.
 

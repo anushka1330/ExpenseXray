@@ -1,4 +1,6 @@
 # 🤎 Expense X-Rray
+<img width="263" height="60" alt="image" src="https://github.com/user-attachments/assets/41aa4e3d-0841-4d77-8ced-c6b32268f6b1" />
+
 
 > **See What Your Money Doesn't.**
 > 

@@ -1,45 +1,115 @@
 {% extends "base.html" %}
-
-{% block title %}Weekly Insights{% endblock %}
+{% block page_title %}Weekly Insights{% endblock %}
 
 {% block content %}
-<div class="glass-card mb-4" style="text-align: center; padding: 3rem;">
-    <h2 style="color: var(--text-secondary); margin-bottom: 10px;">Total Spent This Week</h2>
-    <h1 style="font-size: 3rem; color: var(--text-primary);">₹{{ "%.2f"|format(insights.current_total) }}</h1>
+
+<div class="page-top">
+  <div>
+    <div class="page-eyebrow">Intelligence Report</div>
+    <h1 class="page-title">Weekly Financial X-Ray</h1>
+    <p class="page-subtitle">Automated week-over-week spending analysis and anomaly detection.</p>
+  </div>
 </div>
 
-<div class="grid-2">
-    <div class="glass-card">
-        <h3>AI Analysis</h3>
-        <br>
-        {% for insight in insights.insights %}
-            <div class="alert {{ insight.type }}" style="margin-bottom: 15px;">
-                <i class="fas {% if insight.type == 'warning' %}fa-exclamation-triangle{% elif insight.type == 'success' %}fa-check-circle{% elif insight.type == 'alert' %}fa-bullseye{% else %}fa-info-circle{% endif %}"></i> 
-                {{ insight.text }}
-            </div>
-        {% endfor %}
-        
-        {% if insights.highest_category %}
-        <p style="margin-top: 20px; line-height: 1.6; color: var(--text-secondary);">
-            Our logic detects that <strong>{{ insights.highest_category }}</strong> is your highest expense area this week. 
-            Consider applying a 10-15% reduction goal strictly to this category next week to improve your savings rate.
-        </p>
-        {% endif %}
+<!-- Weekly X-Ray Scan Hero -->
+<div class="card" style="margin-bottom:1.75rem;position:relative;overflow:hidden">
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg, transparent, var(--accent-bronze), transparent)"></div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap">
+    <div>
+      <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.3rem">
+        TOTAL SPENT THIS WEEK
+      </div>
+      <div style="font-family:var(--font-mono);font-size:2.4rem;font-weight:700;color:var(--text-primary)">
+        ₹{{ "{:,.2f}".format(insights.current_total or 0) }}
+      </div>
+
+      {% if insights.past_total > 0 %}
+        {% set chg = ((insights.current_total - insights.past_total) / insights.past_total * 100) %}
+        <div style="margin-top:0.5rem">
+          <span class="badge-cat" style="color:{% if chg > 5 %}var(--accent-terracotta){% else %}var(--accent-sage){% endif %}">
+            <i class="fas fa-arrow-{% if chg > 5 %}up{% else %}down{% endif %}"></i>
+            {% if chg > 0 %}+{% endif %}{{ "{:.1f}".format(chg) }}% vs last week (₹{{ "{:,.2f}".format(insights.past_total or 0) }})
+          </span>
+        </div>
+      {% endif %}
     </div>
-    
-    <div class="glass-card">
-        <h3>Category Breakdown</h3>
-        <br>
-        <ul style="list-style: none; padding: 0;">
-            {% for cat, val in insights.category_breakdown.items() %}
-            <li style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--glass-border);">
-                <span>{{ cat }}</span>
-                <strong style="color: var(--text-primary);">₹{{ "%.2f"|format(val) }}</strong>
-            </li>
-            {% else %}
-            <li style="color: var(--text-secondary);">No category data available.</li>
-            {% endfor %}
-        </ul>
+
+    <div style="display:flex;gap:2rem">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;color:var(--text-muted)">LAST WEEK</div>
+        <div style="font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--text-secondary);margin-top:0.2rem">
+          ₹{{ "{:,.2f}".format(insights.past_total or 0) }}
+        </div>
+      </div>
+      {% if insights.highest_category %}
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;color:var(--text-muted)">HIGHEST CATEGORY</div>
+        <div style="font-size:1.1rem;font-weight:700;color:var(--accent-bronze);margin-top:0.2rem">
+          {{ insights.highest_category }}
+        </div>
+      </div>
+      {% endif %}
     </div>
+  </div>
 </div>
+
+<!-- Two-column details -->
+<div class="two-col">
+
+  <!-- AI Insights List -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title"><i class="card-title-icon fas fa-lightbulb"></i> Automated Insights</span>
+    </div>
+
+    {% if insights.insights %}
+      <div style="display:flex;flex-direction:column;gap:0.85rem">
+        {% for item in insights.insights %}
+        <div style="padding:1rem;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);display:flex;gap:0.85rem;align-items:flex-start">
+          <i class="fas {% if item.type == 'warning' %}fa-triangle-exclamation{% elif item.type == 'success' %}fa-circle-check{% else %}fa-info-circle{% endif %}" 
+             style="color:{% if item.type == 'warning' %}var(--accent-terracotta){% elif item.type == 'success' %}var(--accent-sage){% else %}var(--accent-bronze){% endif %};margin-top:0.2rem"></i>
+          <div style="font-size:0.88rem;color:var(--text-primary);line-height:1.45">{{ item.text }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div style="color:var(--text-muted);padding:2rem 0;text-align:center">No weekly insights generated yet. Add transactions to see analytical findings!</div>
+    {% endif %}
+  </div>
+
+  <!-- Weekly Category Breakdown -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title"><i class="card-title-icon fas fa-chart-bar"></i> Category Breakdown</span>
+      <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted)">THIS WEEK</span>
+    </div>
+
+    {% if insights.category_breakdown %}
+      {% set cat_palette = ['#6B4F3A', '#B86F52', '#C49A5A', '#7A8B68', '#D4A373', '#C5B4A5'] %}
+      <div style="display:flex;flex-direction:column;gap:0.85rem">
+        {% for cat, val in insights.category_breakdown.items() %}
+        {% set cat_pct = (val / insights.current_total * 100) if insights.current_total > 0 else 0 %}
+        {% set bar_color = cat_palette[loop.index0 % 6] %}
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:0.82rem;margin-bottom:0.25rem">
+            <span style="color:var(--text-primary);font-weight:600;display:flex;align-items:center;gap:0.4rem">
+              <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{{ bar_color }}"></span>
+              {{ cat }}
+            </span>
+            <span style="font-family:var(--font-mono);color:{{ bar_color }}">₹{{ "{:,.2f}".format(val) }} ({{ "{:.0f}".format(cat_pct) }}%)</span>
+          </div>
+          <div style="height:6px;background:var(--bg-elevated);border-radius:3px;overflow:hidden">
+            <div style="height:100%;width:{{ cat_pct }}%;background:{{ bar_color }};border-radius:3px"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div style="color:var(--text-muted);padding:2rem 0;text-align:center">No expenses recorded for this week.</div>
+    {% endif %}
+  </div>
+
+</div>
+
 {% endblock %}

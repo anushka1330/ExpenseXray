@@ -1,41 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExpenseXray - Smart AI Tracker</title>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block page_title %}Dashboard{% endblock %} — Expense X-Ray</title>
+  <meta name="description" content="Art-directed financial intelligence application.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="logo">
-            <i class="fas fa-search-dollar"></i> ExpenseXray
+  <!-- Analytical Grid Background -->
+  <div class="grid-bg-overlay"></div>
+  
+  <!-- 3D Canvas Background -->
+  <canvas id="three-bg-canvas"></canvas>
+
+  <!-- Mobile Header Bar -->
+  <div class="mobile-header">
+    <a href="{{ url_for('dashboard') }}" class="brand-header" style="margin-bottom:0">
+      <svg class="brand-logo-svg" width="32" height="32" viewBox="0 0 48 48" fill="none">
+        <circle cx="28" cy="18" r="13" fill="#D4A373" stroke="#F7EFE9" stroke-width="2"/>
+        <text x="28" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="15" fill="#120E0C" text-anchor="middle">₹</text>
+        <path d="M10 32C10 32 14 28 18 28C22 28 24 31 28 31C32 31 36 26 39 26C41 26 42 28 40 30C37 33 33 38 27 38C22 38 18 35 15 35L10 32Z" stroke="#F7EFE9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <rect x="7" y="31" width="5" height="10" rx="2" fill="#D4A373"/>
+      </svg>
+      <span class="brand-title">₹ Expense X-Ray</span>
+    </a>
+    <button id="sidebar-toggle" style="background:none;border:none;color:var(--text-primary);font-size:1.2rem;cursor:pointer">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <a href="{{ url_for('dashboard') }}" class="brand-header">
+        <svg class="brand-logo-svg" width="36" height="36" viewBox="0 0 48 48" fill="none">
+          <circle cx="28" cy="18" r="13" fill="#D4A373" stroke="#F7EFE9" stroke-width="2"/>
+          <text x="28" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="15" fill="#120E0C" text-anchor="middle">₹</text>
+          <path d="M10 32C10 32 14 28 18 28C22 28 24 31 28 31C32 31 36 26 39 26C41 26 42 28 40 30C37 33 33 38 27 38C22 38 18 35 15 35L10 32Z" stroke="#F7EFE9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="7" y="31" width="5" height="10" rx="2" fill="#D4A373"/>
+        </svg>
+        <div class="brand-text-col">
+          <span class="brand-title">₹ Expense X-Ray</span>
+          <span class="brand-subtitle">See What Your Money Doesn't</span>
         </div>
-        <ul class="nav-links">
-            <li><a href="/" class="{{ 'active' if request.path == '/' else '' }}"><i class="fas fa-plus-circle"></i> Add Expense</a></li>
-            <li><a href="/set-budget" class="{{ 'active' if request.path == '/set-budget' else '' }}"><i class="fas fa-wallet"></i> Set Budget</a></li>
-            <li><a href="/savings-goals" class="{{ 'active' if request.path == '/savings-goals' else '' }}"><i class="fas fa-bullseye"></i> Savings Goals</a></li>
-            <li><a href="/reports" class="{{ 'active' if request.path == '/reports' else '' }}"><i class="fas fa-chart-line"></i> Weekly Report</a></li>
-        </ul>
+      </a>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main Terminal</div>
+        <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+          <i class="fas fa-chart-line"></i> Overview
+        </a>
+        <a href="{{ url_for('set_budget') }}" class="nav-item {% if request.endpoint == 'set_budget' %}active{% endif %}">
+          <i class="fas fa-bullseye"></i> Budget Planning
+        </a>
+        <a href="{{ url_for('savings_goals') }}" class="nav-item {% if request.endpoint == 'savings_goals' %}active{% endif %}">
+          <i class="fas fa-piggy-bank"></i> Savings Goals
+        </a>
+        
+        <div class="nav-section-label">Intelligence</div>
+        <a href="{{ url_for('reports') }}" class="nav-item {% if request.endpoint == 'reports' %}active{% endif %}">
+          <i class="fas fa-bolt"></i> Weekly X-Ray
+        </a>
+        <a href="{{ url_for('profile') }}" class="nav-item {% if request.endpoint == 'profile' %}active{% endif %}">
+          <i class="fas fa-user-gear"></i> Account Profile
+        </a>
+      </nav>
+
+      {% if user %}
+      <div class="sidebar-user">
+        <a href="{{ url_for('profile') }}" class="user-chip">
+          <div class="user-avatar">{{ user.name[0]|upper if user.name else 'U' }}</div>
+          <div class="user-info">
+            <span class="user-name">{{ user.name or 'User' }}</span>
+            <span class="user-id">{{ user.expense_xray_id }}</span>
+          </div>
+        </a>
+        <a href="{{ url_for('logout') }}" class="btn-logout" title="Sign Out">
+          <i class="fas fa-sign-out-alt"></i>
+        </a>
+      </div>
+      {% endif %}
     </aside>
 
-    <main class="main-content">
-        <div class="top-header">
-            <h1 class="page-title">{% block title %}Dashboard{% endblock %}</h1>
+    <!-- Main Content Area -->
+    <main class="app-main">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+          <div class="flash-item {{ category }}">
+            <span><i class="fas fa-info-circle" style="margin-right:0.4rem"></i>{{ message }}</span>
+          </div>
+          {% endfor %}
         </div>
-        
-        {% block content %}{% endblock %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
     </main>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
-    {% block scripts %}{% endblock %}
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="{{ url_for('static', filename='js/three-background.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  
+  <script>
+    // Mobile menu toggle
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('app-sidebar');
+    if (toggleBtn && sidebar) {
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+      });
+    }
+  </script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense X-Ray — See What Your Money Doesn't.</title>
+  <meta name="description" content="Art-directed financial intelligence for Indian ruin transactions. Track expenses, predictions, and weekly X-Ray insights.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+
+  <div class="grid-bg-overlay"></div>
+  <canvas id="three-bg-canvas"></canvas>
+
+  <div class="auth-viewport">
+    
+    <!-- Top Bar Header -->
+    <header class="auth-header">
+      <a href="{{ url_for('index') }}" class="auth-brand">
+        <svg class="auth-brand-svg" width="40" height="40" viewBox="0 0 48 48" fill="none">
+          <circle cx="28" cy="18" r="13" fill="#D4A373" stroke="#F7EFE9" stroke-width="2"/>
+          <text x="28" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="15" fill="#120E0C" text-anchor="middle">₹</text>
+          <path d="M10 32C10 32 14 28 18 28C22 28 24 31 28 31C32 31 36 26 39 26C41 26 42 28 40 30C37 33 33 38 27 38C22 38 18 35 15 35L10 32Z" stroke="#F7EFE9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="7" y="31" width="5" height="10" rx="2" fill="#D4A373"/>
+        </svg>
+        <div class="auth-brand-text">
+          <span class="auth-brand-name">₹ Expense X-Ray</span>
+          <span class="auth-brand-tagline">See What Your Money Doesn't</span>
+        </div>
+      </a>
+      <div class="auth-top-nav">
+        <a href="{{ url_for('login') }}" class="auth-nav-link">Sign In</a>
+        <a href="{{ url_for('signup') }}" class="btn-primary" style="padding:0.55rem 1.1rem;font-size:0.82rem">Get Started →</a>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="auth-canvas-container" style="align-items:center">
+      
+      <div class="editorial-col" style="padding-top:2rem">
+        <div class="editorial-tagline-eyebrow">Financial Instrument</div>
+        <h1 class="editorial-headline" style="font-size:3.6rem">
+          See what your money doesn't.
+          <span class="highlight">Precision expense intelligence.</span>
+        </h1>
+        <p class="editorial-sub" style="font-size:1.15rem">
+          Uncover micro-spending leaks, predict 50/30/20 budget allocations, and analyze weekly financial scans in a quiet, luxury brown & cream interface.
+        </p>
+
+        <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap">
+          <a href="{{ url_for('signup') }}" class="btn-primary" style="padding:0.9rem 1.8rem;font-size:0.95rem">
+            Launch Your X-Ray <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="{{ url_for('login') }}" class="btn-secondary" style="padding:0.9rem 1.8rem;font-size:0.95rem">
+            Sign In to Terminal
+          </a>
+        </div>
+      </div>
+
+      <div class="form-col" style="padding-top:2rem">
+        <div class="financial-xray-live-preview" style="max-width:100%">
+          <div class="preview-header">
+            <div class="preview-label">
+              <span class="preview-pulse-dot"></span>
+              X-RAY ENGINE / DEMO TERMINAL
+            </div>
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--accent-bronze)">LIVE METRICS</span>
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div style="background:var(--bg-dark);padding:1rem;border-radius:4px;border:1px solid var(--border-subtle)">
+              <div style="font-size:0.7rem;color:var(--text-muted);font-weight:700">MONTHLY BUDGET</div>
+              <div style="font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--text-primary);margin-top:0.2rem">₹ 75,000</div>
+            </div>
+            <div style="background:var(--bg-dark);padding:1rem;border-radius:4px;border:1px solid var(--border-subtle)">
+              <div style="font-size:0.7rem;color:var(--text-muted);font-weight:700">SAVINGS TARGET</div>
+              <div style="font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--accent-bronze);margin-top:0.2rem">₹ 15,000</div>
+            </div>
+          </div>
+
+          <div class="preview-graph-bar" style="height:6px">
+            <div class="preview-graph-fill" style="width:72%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-secondary);margin-top:0.5rem;font-family:var(--font-mono)">
+            <span>Needs: 50%</span>
+            <span>Wants: 30%</span>
+            <span>Savings: 20%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="{{ url_for('static', filename='js/three-background.js') }}"></script>
+</body>
+</html>

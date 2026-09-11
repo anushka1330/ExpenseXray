@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block page_title %}Profile{% endblock %}
+
+{% block content %}
+
+<div class="page-top">
+  <div>
+    <div class="page-eyebrow">Account Settings</div>
+    <h1 class="page-title">User Profile</h1>
+    <p class="page-subtitle">Your Expense X-Ray account credentials and financial stats.</p>
+  </div>
+</div>
+
+<div class="two-col">
+
+  <!-- Left: User Identity Card -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title"><i class="card-title-icon fas fa-id-card"></i> Account Credentials</span>
+      <span style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent-bronze)">VERIFIED</span>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:1.25rem;padding:1rem 0;border-bottom:1px solid var(--border-subtle);margin-bottom:1.25rem">
+      <div style="width:60px;height:60px;border-radius:50%;background:rgba(212, 163, 115, 0.2);border:2px solid var(--accent-bronze);color:var(--accent-bronze);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700">
+        {{ user.name[0]|upper if user.name else 'U' }}
+      </div>
+      <div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--text-primary)">{{ user.name or 'User' }}</div>
+        <div style="font-family:var(--font-mono);font-size:0.9rem;color:var(--accent-bronze);margin-top:0.1rem">
+          <i class="fas fa-fingerprint" style="margin-right:0.3rem"></i> {{ user.expense_xray_id }}
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.88rem">
+      <div style="display:flex;justify-content:space-between;color:var(--text-secondary)">
+        <span>Member Since</span>
+        <span style="font-family:var(--font-mono);color:var(--text-primary)">{{ user.created_at.strftime('%b %Y') if user.created_at else 'Recent' }}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;color:var(--text-secondary)">
+        <span>Monthly Income / Budget</span>
+        <span style="font-family:var(--font-mono);color:var(--accent-bronze)">
+          {% if user.monthly_income and user.monthly_income > 0 %}₹{{ "{:,.0f}".format(user.monthly_income) }}{% else %}Not set{% endif %}
+        </span>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border-subtle)">
+      <a href="{{ url_for('logout') }}" class="btn-secondary" style="width:100%">
+        <i class="fas fa-sign-out-alt"></i> Sign Out of Account
+      </a>
+    </div>
+  </div>
+
+  <!-- Right: Account Stats -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title"><i class="card-title-icon fas fa-chart-simple"></i> Personal Statistics</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div style="background:var(--bg-surface);padding:1.25rem;border-radius:var(--radius-sm);border:1px solid var(--border-subtle);text-align:center">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase">EXPENSES TRACKED</div>
+        <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--text-primary);margin-top:0.25rem">{{ expense_count }}</div>
+      </div>
+      <div style="background:var(--bg-surface);padding:1.25rem;border-radius:var(--radius-sm);border:1px solid var(--border-subtle);text-align:center">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase">SAVINGS GOALS</div>
+        <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--accent-bronze);margin-top:0.25rem">{{ goal_count }}</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

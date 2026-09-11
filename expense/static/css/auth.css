@@ -1,0 +1,394 @@
+/* ==========================================================================
+   Expense X-Ray — Editorial Art-Directed Authentication & Landing Layout
+   ========================================================================== */
+
+.auth-viewport {
+  min-height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Header bar for Auth & Landing pages */
+.auth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+}
+
+.auth-brand-svg {
+  flex-shrink: 0;
+}
+
+.auth-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-brand-name {
+  font-family: var(--font-script);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent-bronze);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.auth-brand-tagline {
+  font-family: var(--font-script);
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1;
+  margin-top: 0.1rem;
+}
+
+.auth-top-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.auth-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.auth-nav-link:hover {
+  color: var(--text-primary);
+}
+
+/* Editorial Asymmetric Grid */
+.auth-canvas-container {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  min-height: 100vh;
+  padding-top: 6rem;
+  width: 100%;
+  max-width: 1350px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* Left Editorial Storytelling Column */
+.editorial-col {
+  padding: 4rem 4rem 4rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.editorial-tagline-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent-bronze);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editorial-tagline-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent-bronze);
+}
+
+.editorial-headline {
+  font-size: 3.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.25rem;
+}
+
+.editorial-headline .highlight {
+  font-family: var(--font-script);
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: var(--accent-bronze);
+  display: block;
+  margin-top: 0.2rem;
+  line-height: 0.95;
+}
+
+.editorial-sub {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 480px;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+/* Single Refined Financial Visualization Widget (NO 4-card icon lists!) */
+.financial-xray-live-preview {
+  background: rgba(28, 23, 20, 0.7);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  max-width: 440px;
+  position: relative;
+  overflow: hidden;
+}
+
+.financial-xray-live-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-bronze), transparent);
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.preview-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-bronze);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.preview-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-bronze);
+  box-shadow: 0 0 8px var(--accent-bronze);
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.preview-val-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.preview-val {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.preview-delta {
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: var(--accent-sage);
+}
+
+.preview-graph-bar {
+  height: 4px;
+  background: rgba(212, 163, 115, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preview-graph-fill {
+  width: 68%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-bronze), var(--accent-cream));
+  border-radius: 2px;
+}
+
+/* Right Form Column (Art-Directed — Sitting directly on canvas without giant container) */
+.form-col {
+  padding: 4rem 4rem 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-canvas-wrap {
+  width: 100%;
+  max-width: 380px;
+}
+
+.form-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-bronze);
+  margin-bottom: 0.4rem;
+}
+
+.form-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  line-height: 1.15;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.auth-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.auth-field-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.auth-input-wrap {
+  position: relative;
+}
+
+.auth-input {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.auth-input:focus {
+  border-color: var(--accent-bronze);
+  box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.15);
+  background: var(--bg-elevated);
+}
+
+.auth-input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth-id-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-bronze);
+  background: rgba(212, 163, 115, 0.1);
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(212, 163, 115, 0.3);
+  margin-top: 0.35rem;
+}
+
+/* Precision Refined CTA Button */
+.btn-cta-art {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: var(--accent-bronze);
+  color: var(--text-inverse);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.9rem 1.6rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.btn-cta-art:hover {
+  background: var(--accent-cream);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 163, 115, 0.2);
+}
+
+.auth-footer-link {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.auth-footer-link a {
+  color: var(--accent-bronze);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-footer-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive auth adjustments */
+@media (max-width: 960px) {
+  .auth-header {
+    padding: 1.5rem 1.5rem;
+  }
+  .auth-canvas-container {
+    grid-template-columns: 1fr;
+    padding-top: 5rem;
+  }
+  .editorial-col {
+    padding: 2rem 1.5rem;
+  }
+  .form-col {
+    padding: 2rem 1.5rem;
+  }
+  .editorial-headline {
+    font-size: 2.4rem;
+  }
+  .editorial-headline .highlight {
+    font-size: 2.8rem;
+  }
+}

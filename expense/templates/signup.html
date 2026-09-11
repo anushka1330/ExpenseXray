@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — Expense X-Ray</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+
+  <div class="grid-bg-overlay"></div>
+  <canvas id="three-bg-canvas"></canvas>
+
+  <div class="auth-viewport">
+    
+    <!-- Top Bar Header -->
+    <header class="auth-header">
+      <a href="{{ url_for('index') }}" class="auth-brand">
+        <svg class="auth-brand-svg" width="38" height="38" viewBox="0 0 48 48" fill="none">
+          <circle cx="28" cy="18" r="13" fill="#D4A373" stroke="#F7EFE9" stroke-width="2"/>
+          <text x="28" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="15" fill="#120E0C" text-anchor="middle">₹</text>
+          <path d="M10 32C10 32 14 28 18 28C22 28 24 31 28 31C32 31 36 26 39 26C41 26 42 28 40 30C37 33 33 38 27 38C22 38 18 35 15 35L10 32Z" stroke="#F7EFE9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <rect x="7" y="31" width="5" height="10" rx="2" fill="#D4A373"/>
+        </svg>
+        <div class="auth-brand-text">
+          <span class="auth-brand-name">₹ Expense X-Ray</span>
+          <span class="auth-brand-tagline">See What Your Money Doesn't</span>
+        </div>
+      </a>
+      <div class="auth-top-nav">
+        <a href="{{ url_for('index') }}" class="auth-nav-link">Overview</a>
+        <a href="{{ url_for('login') }}" class="auth-nav-link" style="color:var(--accent-bronze)">Sign In →</a>
+      </div>
+    </header>
+
+    <!-- Main Editorial Composition -->
+    <div class="auth-canvas-container">
+      
+      <!-- Left Column: Editorial Info -->
+      <div class="editorial-col">
+        <div class="editorial-tagline-eyebrow">Unique Identity</div>
+        <h1 class="editorial-headline">
+          Your personal financial instrument.
+          <span class="highlight">Auto-generated X-Ray ID.</span>
+        </h1>
+        <p class="editorial-sub">
+          Enter your name and your unique Expense X-Ray ID will be generated automatically (e.g. <strong>RahulXRay</strong> or <strong>Rahul1XRay</strong> if taken).
+        </p>
+
+        <div class="financial-xray-live-preview">
+          <div class="preview-header">
+            <div class="preview-label">
+              <span class="preview-pulse-dot"></span>
+              ID ENGINE / READY
+            </div>
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">AUTOMATIC</span>
+          </div>
+          <div class="preview-val-row">
+            <div class="preview-val" id="editorial-id-display">YourNameXRay</div>
+            <div class="preview-delta"><i class="fas fa-check-circle"></i> Guaranteed Unique</div>
+          </div>
+          <div class="preview-graph-bar">
+            <div class="preview-graph-fill" style="width:100%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Precision Signup Form -->
+      <div class="form-col">
+        <div class="form-canvas-wrap">
+          <div class="form-eyebrow">Registration / New User</div>
+          <h2 class="form-title">Create your account</h2>
+
+          {% if error %}
+          <div class="flash-messages">
+            <div class="flash-item error">
+              <span><i class="fas fa-exclamation-circle" style="margin-right:0.4rem"></i>{{ error }}</span>
+            </div>
+          </div>
+          {% endif %}
+
+          <form action="{{ url_for('signup') }}" method="POST" class="auth-form" id="signup-form">
+            
+            <div class="auth-field-group">
+              <label class="auth-field-label" for="name">Your Display Name</label>
+              <div class="auth-input-wrap">
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  class="auth-input" 
+                  placeholder="e.g. Rahul, Aarav, Priya"
+                  required 
+                  autocomplete="name"
+                  autofocus
+                >
+              </div>
+              <div class="auth-id-preview-badge" id="id-preview-box" style="display:none">
+                <i class="fas fa-id-badge"></i> Assigned ID: <strong id="suggested-id-text">—</strong>
+              </div>
+            </div>
+
+            <div class="auth-field-group">
+              <label class="auth-field-label" for="password">Password</label>
+              <div class="auth-input-wrap">
+                <input 
+                  type="password" 
+                  id="password" 
+                  name="password" 
+                  class="auth-input" 
+                  placeholder="At least 6 characters"
+                  required 
+                  minlength="6"
+                  autocomplete="new-password"
+                >
+              </div>
+            </div>
+
+            <div class="auth-field-group">
+              <label class="auth-field-label" for="confirm_password">Confirm Password</label>
+              <div class="auth-input-wrap">
+                <input 
+                  type="password" 
+                  id="confirm_password" 
+                  name="confirm_password" 
+                  class="auth-input" 
+                  placeholder="Re-enter password"
+                  required 
+                  autocomplete="new-password"
+                >
+              </div>
+            </div>
+
+            <button type="submit" class="btn-cta-art">
+              Create Account <i class="fas fa-arrow-right" style="font-size:0.8rem"></i>
+            </button>
+          </form>
+
+          <div class="auth-footer-link">
+            Already have an account? <a href="{{ url_for('login') }}">Sign in here</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="{{ url_for('static', filename='js/three-background.js') }}"></script>
+  
+  <script>
+    // Live ID Suggestion Engine
+    const nameInput = document.getElementById('name');
+    const previewBox = document.getElementById('id-preview-box');
+    const suggestedText = document.getElementById('suggested-id-text');
+    const editorialDisplay = document.getElementById('editorial-id-display');
+    let debounceTimer;
+
+    nameInput.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      const val = nameInput.value.trim();
+      if (!val) {
+        previewBox.style.display = 'none';
+        editorialDisplay.textContent = 'YourNameXRay';
+        return;
+      }
+
+      debounceTimer = setTimeout(() => {
+        fetch(`/api/suggest_id?name=${encodeURIComponent(val)}`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.suggested_id) {
+              suggestedText.textContent = data.suggested_id;
+              editorialDisplay.textContent = data.suggested_id;
+              previewBox.style.display = 'inline-flex';
+            }
+          })
+          .catch(() => {});
+      }, 200);
+    });
+  </script>
+</body>
+</html>
